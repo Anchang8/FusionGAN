@@ -54,19 +54,20 @@ train_dataloader = DataLoader(train_dataset, batch_size = batch_size,
 
 ######### Start Training##########
 Start = time.time()
+dataloader = train_dataloader
+
+netG = generator
+netG.train()
+netD = discriminator
+netD.train()
+
+iden_loss = nn.MSELoss()
+shape_loss = nn.L1Loss()
+
 for epoch in range(num_epochs):
     print("Epoch {}/{}".format(epoch + 1, num_epochs))
     print('-' * 10)
-
-    dataloader = train_dataloader
-    netG = generator
-    netG.train()
-    netD = discriminator
-    netD.train()
     start = time.time()
-    iden_loss = nn.MSELoss()
-    shape_loss = nn.L1Loss()
-
     for i, sample in enumerate(dataloader, 0): #start = 0
         x, y, x_hat = sample['x'], sample['y'], sample['x_hat']
         iden_equal1 = sample['identity_equal_1']
